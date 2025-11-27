@@ -1,5 +1,5 @@
 {
-  "name": "Prime Number",
-  "description": "Infinite prime number generator.",
+  "name": "Prime Stream",
+  "description": "Infinite prime number stream generator.",
   "requestFramePermissions": []
 }
