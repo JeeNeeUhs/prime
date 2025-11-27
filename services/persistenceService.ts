@@ -13,7 +13,7 @@ export interface PersistenceData {
 // This ensures everyone calculates the same starting number relative to this date.
 // Set to March 14, 2025, 03:14:00 UTC
 export const GENESIS_EPOCH = 1741922040000; 
-export const STREAM_VELOCITY = 1n; // How fast the number grows per millisecond (1n = 1000/sec)
+const STREAM_VELOCITY = 1n; // How fast the number grows per millisecond (1n = 1000/sec)
 
 export const loadState = (): PersistenceData => {
   const now = Date.now();

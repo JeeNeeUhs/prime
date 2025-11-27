@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo, useLayoutEffect } from 'react';
 import { ArrowDown, Zap, Server, Clock, Copy, Check, Radio } from 'lucide-react';
 import { isPrime, findPreviousPrimes } from './services/mathService';
-import { loadState, GENESIS_EPOCH, STREAM_VELOCITY } from './services/persistenceService';
+import { loadState, GENESIS_EPOCH } from './services/persistenceService';
 
 const BATCH_SIZE = 100;
 const SYNC_THRESHOLD = 50;
@@ -70,19 +70,6 @@ const App: React.FC = () => {
     const findNext = () => {
       if (!isRunning) return;
 
-      // Time Synchronization / CPU Throttling
-      // Calculate where we SHOULD be based on the Universal Clock
-      const now = Date.now();
-      const elapsed = BigInt(Math.max(0, now - GENESIS_EPOCH));
-      const targetCursor = 2n + (elapsed * STREAM_VELOCITY);
-
-      // If we are ahead of the schedule, wait (throttle CPU)
-      if (searchCursor.current > targetCursor) {
-        setTimeout(findNext, 20); // Check again in 20ms
-        return;
-      }
-
-      // Calculate next prime
       let candidate = searchCursor.current + 1n;
       
       if (candidate > 2n && candidate % 2n === 0n) candidate++;
@@ -108,7 +95,6 @@ const App: React.FC = () => {
          setDisplayedHistory(fullHistoryRef.current.slice(0, historyRenderCount.current));
       }
 
-      // Continue immediately if behind schedule, otherwise the check at the top handles the delay
       setTimeout(findNext, 0);
     };
 
